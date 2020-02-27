@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import axios from 'axios';
+import { useParams } from "react-router-dom";
 
 export default function UpdateMovieForm() {
 
+    let { id } = useParams();
+
     const [ data, setData ] = useState({
+        id: id,
         title: '',
         director: '',
         metascore: '',
@@ -16,15 +20,16 @@ export default function UpdateMovieForm() {
         })
     }
 
-    const onSubmit = event => {
+    const onSubmit = ( event, id ) => {
         event.preventDefault();
-        axios.post(`http://localhost:5000/api/movies`, data)
+        axios.put(`http://localhost:5000/api/movies/${id}`, data)
         .then((response) => {
             console.log(response);
         })
         .catch((error) => {
             console.log(error);
         })
+
     }
 
   return (
@@ -57,7 +62,7 @@ export default function UpdateMovieForm() {
           name="stars"
           onChange={event => onChange(event)}
         />
-        <button>Submit!</button>
+        <button>Edit!</button>
       </form>
     </div>
   );
